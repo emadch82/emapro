@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سُها - اپلیکیشن پادکست</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      /* Using a style tag for things Tailwind CDN can't easily handle like custom fonts or complex keyframes */
+       
+      body {
+        font-family: 'Vazirmatn', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: pan-y;
+      }
+      
+      .chat-bg {
+          background-color: #e5ddd5;
+          background-image: url('https://uploads-ssl.webflow.com/5ba4b334592072159d7362f2/5bb200155a34e9264c017411_SO-pattern-22.svg');
+          background-size: 300px;
+          background-attachment: fixed;
+      }
+      
+      .bubble {
+        position: relative;
+      }
+
+      .bubble-tail::after {
+          content: '';
+          position: absolute;
+          bottom: 16px; /* MODIFIED: Was 13px, adjusted for better vertical alignment with avatar */
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-bottom-color: transparent;
+          /* REMOVED: margin-top: 10px; */
+      }
+      
+      .bubble-left.bubble-tail::after {
+          right: 100%;
+          border-right-color: var(--bubble-color, #ffffff);
+      }
+      
+      .bubble-right.bubble-tail::after {
+          left: 100%;
+          border-left-color: var(--bubble-color, #dcf8c6);
+      }
+      
+      .date-separator {
+        position: sticky;
+        top: 1rem;
+        z-index: 10;
+      }
+
+      @keyframes scrollText {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+
+      .animate-scrollText-8s {
+        animation: scrollText 8s linear infinite;
+        animation-delay: 1s;
+      }
+      .animate-scrollText-10s {
+        animation: scrollText 10s linear infinite;
+        animation-delay: 1s;
+      }
+
+      @keyframes slideInUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0.8;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+
+      @keyframes slideInDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .animate-slideInDown {
+        animation: slideInDown 0.5s ease-out forwards;
+      }
+      
+      @keyframes slideOutDown {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+      }
+      .animate-slideOutDown {
+        animation: slideOutDown 0.3s ease-in forwards;
+      }
+
+
+      @keyframes slideInFromBottom {
+        from { transform: translateY(100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      .animate-slideInFromBottom {
+          animation: slideInFromBottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      }
+
+      @keyframes slideInFromRight {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+      }
+      .animate-slideInFromRight {
+        animation: slideInFromRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      }
+
+
+      /* Webkit-specific styles for line clamping */
+      .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .timeline-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        background-color: transparent;
+        outline: none;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+      .timeline-slider::-webkit-slider-runnable-track {
+        height: 1.25rem;
+        background-color: transparent;
+      }
+      .timeline-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 1rem;
+        height: 1rem;
+        background: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-top: 0.125rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        transition: transform 0.2s ease;
+      }
+      .timeline-slider:hover::-webkit-slider-thumb {
+          transform: scale(1.1);
+      }
+      .timeline-slider::-moz-range-track {
+        height: 1.25rem;
+        background-color: transparent;
+      }
+      .timeline-slider::-moz-range-thumb {
+        width: 1rem;
+        height: 1rem;
+        background: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      }
+
+      /* Custom scrollbar hiding utility */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+
+      /* Utility to disable text selection */
+      .user-select-none {
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none; /* Standard */
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#1ab394',
+                dark: '#148f77',
+                light: '#76d7c4',
+                'light-op': 'rgba(26, 179, 148, 0.1)'
+              },
+              secondary: '#2e86c1',
+              background: '#f8f9fa',
+              'text-primary': '#2c3e50',
+              'text-secondary': '#566573',
+              'card-bg': '#ffffff',
+              'border-color': '#d5d8dc',
+              'admin-bubble': '#dcf8c6',
+              'chat-background': '#F0F2F5',
+            },
+            boxShadow: {
+              'custom': '0 4px 15px rgba(0,0,0,0.1)',
+            },
+            backgroundImage: {
+              'custom-gradient': 'linear-gradient(135deg, #1ab394, #2e86c1)',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
