@@ -1,20 +1,355 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <h1>🎙️ Soha Podcast App</h1>
+  <p>یک پلتفرم جامع پادکست، ویدیو و کتاب برای محتوای فکری و اندیشمندانه</p>
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+## 📖 معرفی پروژه
 
-View your app in AI Studio: https://ai.studio/apps/drive/1sKqVgrihVnPNTdhGw3U6159qcYuShrG6
+**Soha Podcast App** یک اپلیکیشن وب پیشرفته و مدرن است که برای ارائه محتوای صوتی، ویدیویی و متنی طراحی شده است. این پروژه با استفاده از React و TypeScript ساخته شده و قابلیت‌های متنوعی برای مدیریت و پخش محتوا ارائه می‌دهد.
 
-## Run Locally
+### ✨ ویژگی‌های کلیدی
 
-**Prerequisites:**  Node.js
+- 🎧 **پخش پادکست**: پخش کننده صوت پیشرفته با قابلیت کنترل سرعت، جستجو در زمان و مدیریت لیست پخش
+- 🎬 **پخش ویدیو**: پشتیبانی کامل از ویدیوهای Aparat با پخش کننده inline و minimized
+- 📚 **کتابخانه دیجیتال**: دسترسی به کتاب‌ها و نویسندگان با امکان مشاهده PDF
+- 👥 **محفل (Community)**: سیستم تعاملی برای نظرات، پست‌ها و بحث‌ها
+- 🔐 **احراز هویت کاربر**: سیستم ورود و ثبت‌نام با ذخیره علاقه‌مندی‌ها
+- ⚙️ **پنل مدیریت**: صفحه مدیریت برای افزودن و ویرایش پادکست‌ها و ویدیوها
+- 📱 **PWA**: پشتیبانی کامل Progressive Web App با Service Worker
+- 🌙 **رابط کاربری فارسی**: طراحی RTL با رابط کاربری زیبا و واکنش‌گرا
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🛠️ تکنولوژی‌های استفاده شده
+
+### Frontend
+- **React 19** - کتابخانه UI
+- **TypeScript** - تایپ‌ایمنی
+- **Vite** - ابزار build و development
+- **CSS3** - استایل‌دهی و انیمیشن‌ها
+
+### Backend
+- **Node.js** - محیط اجرای JavaScript
+- **Express** - فریمورک وب
+- **PostgreSQL** - پایگاه داده
+- **CORS** - مدیریت درخواست‌های cross-origin
+
+---
+
+## 📁 ساختار پروژه
+
+```
+emamobilepro/
+├── components/          # کامپوننت‌های React
+│   ├── AppHeader.tsx
+│   ├── BottomTabs.tsx
+│   ├── FullScreenPlayer.tsx
+│   ├── MinimizedPlayer.tsx
+│   ├── InlineVideoPlayer.tsx
+│   ├── PdfViewer.tsx
+│   └── ...
+├── pages/              # صفحات اصلی اپلیکیشن
+│   ├── HomePage.tsx
+│   ├── SowtPage.tsx    # صفحه پادکست‌ها
+│   ├── VideoListPage.tsx
+│   ├── MatnPage.tsx    # صفحه کتاب‌ها
+│   ├── CommentsCommunityPage.tsx  # صفحه محفل
+│   ├── AdminPage.tsx
+│   └── ...
+├── services/           # سرویس‌های API
+│   └── api.ts
+├── data/               # داده‌های محلی
+│   ├── database.ts
+│   └── database.json
+├── utils/              # توابع کمکی
+│   ├── helpers.ts
+│   └── aparatApi.ts
+├── types.ts            # تعریف تایپ‌های TypeScript
+├── App.tsx             # کامپوننت اصلی
+├── index.tsx           # نقطه ورود
+├── vite.config.ts      # تنظیمات Vite
+├── service-worker.js   # Service Worker برای PWA
+└── soha-backend/       # Backend API
+    ├── index.js
+    ├── seed.js
+    └── package.json
+```
+
+---
+
+## 🚀 راه‌اندازی پروژه
+
+### پیش‌نیازها
+
+- **Node.js** نسخه 18 یا بالاتر
+- **npm** یا **yarn** یا **pnpm**
+- (اختیاری) **PostgreSQL** برای Backend
+
+### نصب و اجرا
+
+1. **کلون کردن پروژه**
+   ```bash
+   git clone https://github.com/emadch82/emapro.git
+   cd emamobilepro
+   ```
+
+2. **نصب dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **اجرای پروژه در حالت توسعه**
+   ```bash
+   npm run dev
+   ```
+   
+   پروژه در آدرس `http://localhost:3000` اجرا می‌شود.
+
+4. **ساخت نسخه production**
+   ```bash
+   npm run build
+   ```
+
+5. **پیش‌نمایش نسخه production**
+   ```bash
+   npm run preview
+   ```
+
+### راه‌اندازی Backend (اختیاری)
+
+اگر می‌خواهید از Backend استفاده کنید:
+
+```bash
+cd soha-backend
+npm install
+```
+
+سپس یک فایل `.env` ایجاد کنید:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=soha_db
+DB_USER=your_username
+DB_PASSWORD=your_password
+PORT=5000
+```
+
+و اجرا کنید:
+
+```bash
+npm start
+# یا برای seed کردن دیتابیس
+npm run seed
+```
+
+---
+
+## 📱 صفحات و قابلیت‌ها
+
+### 🎧 صفحه صوت (Sowt)
+- لیست پادکست‌ها با دسته‌بندی
+- جستجو در پادکست‌ها
+- نمایش نویسندگان و استادان
+- پخش اپیزودها
+- لیست پخش خودکار
+
+### 🎬 صفحه ویدیو (Videos)
+- نمایش ویدیوهای Aparat
+- پخش کننده inline و minimized
+- نظرات ویدیوها
+- جستجو و فیلتر
+
+### 📚 صفحه متن (Matn)
+- کتابخانه دیجیتال
+- نمایش کتاب‌ها و نویسندگان
+- مشاهده PDF کتاب‌ها
+- ارتباط کتاب‌ها با پادکست‌ها
+
+### 👥 محفل (Mahfel)
+- فید تعاملی پست‌ها
+- نظرات و پاسخ‌ها
+- لایک و تعامل
+- پست‌های سنجاق شده
+- پست‌های مرتبط با پادکست و ویدیو
+
+### ⚙️ پنل مدیریت
+- افزودن و ویرایش پادکست
+- مدیریت ویدیوها
+- ویرایش اطلاعات محتوا
+
+### 👤 پروفایل کاربر
+- مدیریت علاقه‌مندی‌ها
+- کتابخانه شخصی
+- تاریخچه پخش
+- تنظیمات
+
+---
+
+## 🎮 نحوه استفاده
+
+### پخش پادکست
+1. به صفحه **صوت** بروید
+2. یک پادکست را انتخاب کنید
+3. اپیزود مورد نظر را انتخاب و پخش کنید
+4. از کنترل‌های پخش کننده برای جستجو، تغییر سرعت و مدیریت استفاده کنید
+
+### پخش ویدیو
+1. به صفحه **ویدیو** بروید
+2. ویدیو مورد نظر را انتخاب کنید
+3. ویدیو به صورت inline پخش می‌شود
+4. می‌توانید ویدیو را minimized کنید و به صفحات دیگر بروید
+
+### افزودن نظر
+1. در حین پخش پادکست یا ویدیو، می‌توانید نظر خود را ثبت کنید
+2. نظرات به صورت خودکار در محفل نمایش داده می‌شوند
+3. می‌توانید به نظرات دیگران پاسخ دهید
+
+### مدیریت محتوا
+1. از هدر، به پنل مدیریت بروید
+2. پادکست یا ویدیو جدید اضافه کنید
+3. اطلاعات موجود را ویرایش کنید
+
+---
+
+## 🔧 تنظیمات پیشرفته
+
+### متغیرهای محیطی
+
+می‌توانید یک فایل `.env.local` ایجاد کنید:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### تنظیمات Vite
+
+فایل `vite.config.ts` را برای تنظیمات خاص خود ویرایش کنید:
+
+```typescript
+export default defineConfig({
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+  },
+  // ...
+});
+```
+
+---
+
+## 📦 ساختار داده
+
+### Podcast
+```typescript
+interface Podcast {
+  id: number;
+  title: string;
+  description: string;
+  cover: string;
+  speakerId: number;
+  duration: string;
+  episodes: Episode[];
+  year: number;
+  categories: string[];
+}
+```
+
+### Video
+```typescript
+interface Video {
+  id: string;
+  embedId: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  viewCount: number;
+  uploadDate: string;
+  duration: number;
+  categories: string[];
+}
+```
+
+### Book
+```typescript
+interface Book {
+  id: number;
+  title: string;
+  authorId: number;
+  cover: string;
+  relatedEpisodes: Array<{podcastId: number; episodeIndex: number}>;
+  categories: string[];
+}
+```
+
+---
+
+## 🎨 طراحی و UI/UX
+
+- رابط کاربری **RTL** برای فارسی
+- طراحی **واکنش‌گرا** (Responsive) برای موبایل و دسکتاپ
+- انیمیشن‌های نرم و روان
+- هدر مخفی شونده هنگام اسکرول
+- پخش کننده minimized برای دسترسی آسان
+
+---
+
+## 🔒 امنیت
+
+- احراز هویت کاربر با localStorage
+- ذخیره امن اطلاعات کاربر
+- مدیریت دسترسی به پنل مدیریت
+
+---
+
+## 📝 ویژگی‌های PWA
+
+- **Service Worker** برای کار آفلاین
+- **Notification API** برای اعلان‌ها
+- قابلیت نصب روی موبایل
+- Cache کردن محتوا
+
+---
+
+## 🤝 مشارکت
+
+برای مشارکت در پروژه:
+
+1. پروژه را Fork کنید
+2. یک Branch جدید ایجاد کنید (`git checkout -b feature/AmazingFeature`)
+3. تغییرات خود را Commit کنید (`git commit -m 'Add some AmazingFeature'`)
+4. Branch خود را Push کنید (`git push origin feature/AmazingFeature`)
+5. یک Pull Request ایجاد کنید
+
+---
+
+## 📄 مجوز
+
+این پروژه تحت مجوز MIT منتشر شده است.
+
+---
+
+## 👨‍💻 توسعه‌دهنده
+
+- **Emad Ch** - [GitHub](https://github.com/emadch82)
+
+---
+
+## 🙏 قدردانی
+
+- تشکر از همه افرادی که در ساخت این پروژه مشارکت داشته‌اند
+- استفاده از محتوای ارزشمند استادان و نویسندگان ایرانی
+
+---
+
+## 📞 تماس و پشتیبانی
+
+برای سوالات و پشتیبانی می‌توانید از طریق Issues در GitHub ارتباط برقرار کنید.
+
+---
+
+<div align="center">
+  <p>ساخته شده با ❤️ برای جامعه ایرانی</p>
+</div>
